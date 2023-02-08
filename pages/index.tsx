@@ -107,8 +107,8 @@ const Loading = (props: any) => {
 export default function Home() {
 
   const router = useRouter();
-  //the default model of ready player me
-  const [urlModel, setUrlModel] = useState('https://models.readyplayer.me/63c18a08b7a4f54ed11e2d67.glb')
+  //the default model of ready player me 
+  const [urlModel, setUrlModel] = useState('https://api.readyplayer.me/v1/avatars/6317749e666e9239d9d464d9.glb')
 
 
   const date = new Date();

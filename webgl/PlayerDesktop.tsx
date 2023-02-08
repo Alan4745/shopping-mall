@@ -43,6 +43,7 @@ const PlayerDesktop = (props: any) => {
     if (joystickDistance === 0) {
       const frontVector = new THREE.Vector3(0, 0, (Number(backward) - Number(forward)) * ((left || right)? 1 : Math.sqrt(2)))
       const sideVector = new THREE.Vector3(0, 0, 0)
+      // console.log(frontVector)
       direction.subVectors(frontVector, sideVector).normalize().multiplyScalar(4).applyEuler(camera.rotation)
     } else {
       const l = Math.abs(joystickDistance * Math.sin(Math.PI * joystickAngle / 180) * 0.05)

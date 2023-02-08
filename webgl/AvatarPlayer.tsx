@@ -19,7 +19,7 @@ export default function Avatar(props: any) {
   //We enter where the animations of the model are
   const animations = gltf1.animations
   //you can see the animations in console
-  console.log(animations)
+  // console.log(animations)
 
   // Object.keys(gltf.nodes).forEach((name: any, i: any) => {
   //   if (name.search("msm_hair") > -1) {
@@ -115,7 +115,7 @@ export default function Avatar(props: any) {
   const modelRef: any = useRef()
   const controlRef: any = useRef()
   const { actions }: any = useAnimations(animations, modelRef)
-  const [actionName, setAction] = useState({ action: 'Idle', during: false })
+  const [actionName, setAction] = useState({ action: '01 idle', during: false })
   const { forward, backward, left, right } = usePlayerControls()
   const { camera, scene } = useThree()
   const startWorld: boolean = useStore((s) => s.startWorld)
@@ -136,18 +136,18 @@ export default function Avatar(props: any) {
   }, [playerCameraRotation])
 
   //usamos el "useeffect " para poner la animacion de de idle
-  useEffect(() => {
-    var animationToPlay = animations[5];
-    var action = mixer.clipAction(animationToPlay);
-    mixer.timeScale = 0.1;
-    action.play();
-    function animate() {
-      requestAnimationFrame(animate)
-      var delta = clock.getDelta();
-      mixer.update(delta);
-    }
-    animate();
-  }, [props.rotation])
+  // useEffect(() => {
+  //   // var animationToPlay = animations[5];
+  //   var action = mixer.clipAction(animations[5]);
+  //   mixer.timeScale = 0.1;
+  //   action.play();
+  //   function animate() {
+  //     requestAnimationFrame(animate)
+  //     var delta = clock.getDelta();
+  //     mixer.update(delta);
+  //   }
+  //   animate();
+  // }, [props.rotation])
 
   useEffect(() => {
     if (props.avatarSetting) {
@@ -166,45 +166,46 @@ export default function Avatar(props: any) {
     camera.lookAt(v0)
   }, [])
 
-  // useEffect(() => {
-  //   if (emojiAnimation !== "Idle") {
-  //     actions[emojiAnimation].reset().fadeIn(0.5).play()
-  //     return () => actions[emojiAnimation].fadeOut(0.5)
-  //   } else {
-  //     actions[actionName.action].reset().fadeIn(0.5).play()
-  //     return () => actions[actionName.action].fadeOut(0.5)
-  //   }
-  // }, [actionName.action, emojiAnimation])
-
-  var clock = new THREE.Clock();
-  var mixer = new THREE.AnimationMixer(gltf.scene);
-
+  const clock = new THREE.Clock();
+  const mixer = new THREE.AnimationMixer(gltf.scene);
 
   useEffect(() => {
-    if (actionName.action !== "Idle") {
-      return
+    console.log(actionName.action !== "01 idle")
+    if (actionName.action === "01 idle") {
+      const animationAction = actions["01 idle"];
+      animationAction.stop();
+      animationAction.reset().play();
+      console.log(actions)
+      return () => animationAction.fadeOut(0.5)
     } else {
-      //We look for the animation in the animations array of the 3D model
-      var animationToPlay = animations[5];
-      // tell mixer what animation to produce
-      var action = mixer.clipAction(animationToPlay);
-      //We slow down the animation
-      mixer.timeScale = 0.1;
-      // we give it to play the animation
-      action.play();
+      console.log('entro en el elsew')
+      const animationAction = actions[actionName.action];
+      animationAction.stop();
+      animationAction.reset().play();
+      return () => animationAction.fadeOut(0.5)
 
-      // run a loop to repeat the animation
-      const animate = function () {
-        requestAnimationFrame(animate)
-        // Update the animation
-        var delta = clock.getDelta();
-        mixer.update(delta);
-      }
-
-      //call the loop
-      animate();
     }
-  }, [actionName.action, emojiAnimation])
+  }, [actionName])
+
+
+
+
+  // useEffect(() => {
+  //   if (actionName.action !== "Idle") {
+  //     return
+  //   } else {
+  //     //We look for the animation in the animations array of the 3D model
+  //     var animationToPlay = animations[5];
+  //     // tell mixer what animation to produce
+  //     var action = mixer.clipAction(animationToPlay);
+  //     //We slow down the animation
+  //     mixer.timeScale = 0.1;
+  //     // we give it to play the animation
+  //     action.reset().fadeIn(0.5).play();
+  //       // actions[emojiAnimation].reset().fadeIn(0.5).play()
+  //     return () => { action.fadeOut(0.5) }
+  //   }
+  // }, [actionName.action, emojiAnimation])
 
 
 
@@ -213,43 +214,17 @@ export default function Avatar(props: any) {
       return
     let newActionName: string
     if (forward || (joystickDistance > 0 && joystickAngle < 180)) {
-      newActionName = "walk"
-      var animationToPlay = animations[9];
-      var action = mixer.clipAction(animationToPlay);
-      action.play();
-      const animate = function () {
-        requestAnimationFrame(animate)
-        var delta = clock.getDelta();
-        mixer.update(delta);
-      }
-      animate();
+      newActionName = "02 walk"
     }
     else if (backward || (joystickDistance > 0 && joystickAngle > 180)) {
-      newActionName = "backWalk"
-      var animationToPlay = animations[10];
-      var action = mixer.clipAction(animationToPlay);
-      action.play();
-      const animate = function () {
-        requestAnimationFrame(animate)
-        var delta = clock.getDelta();
-        mixer.update(delta);
-      }
-      animate();
+      newActionName = "04 walk back"
+
     }
     else if (!forward && !backward && (left || right || joystickAngle === 0 || joystickAngle === 180)) {
-      newActionName = "turn"
-      var animationToPlay = animations[8];
-      var action = mixer.clipAction(animationToPlay);
-      action.play();
-      const animate = function () {
-        requestAnimationFrame(animate)
-        var delta = clock.getDelta();
-        mixer.update(delta);
-      }
-      animate();
+      newActionName = "05_turn"
     }
     else {
-      newActionName = "Idle"
+      newActionName = "01 idle"
       console.log('Idle')
     }
 
