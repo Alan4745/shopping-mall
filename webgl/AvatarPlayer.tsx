@@ -131,23 +131,8 @@ export default function Avatar(props: any) {
 
 
   useEffect(() => {
-    // console.log('playerCameraRotation', playerCameraRotation)
     useStore.setState({ playerCameraRotation: playerCameraRotation })
   }, [playerCameraRotation])
-
-  //usamos el "useeffect " para poner la animacion de de idle
-  // useEffect(() => {
-  //   // var animationToPlay = animations[5];
-  //   var action = mixer.clipAction(animations[5]);
-  //   mixer.timeScale = 0.1;
-  //   action.play();
-  //   function animate() {
-  //     requestAnimationFrame(animate)
-  //     var delta = clock.getDelta();
-  //     mixer.update(delta);
-  //   }
-  //   animate();
-  // }, [props.rotation])
 
   useEffect(() => {
     if (props.avatarSetting) {
@@ -266,35 +251,6 @@ export default function Avatar(props: any) {
       avatarRef.current.position.lerp(v1, 0.7)
       gsap.to(controlRef.current.target, 0.5, { x: v1.x, y: uiStep === 2 ? v1.y + 1.4 : v1.y + 2.7, z: v1.z })
     }
-
-    // dir.subVectors(camera.position, controlRef.current.target).normalize();
-
-    // raycaster.far = 3.5
-    // THREE.Mesh.prototype.raycast = acceleratedRaycast;
-    // raycaster.firstHitOnly = true;
-    // raycaster.set(controlRef.current.target, dir.subVectors(camera.position, controlRef.current.target).normalize())
-    // // console.log('scene = ', scene.children)
-    // // console.log('sceneMeshes = ', sceneMeshes)
-    // intersects = raycaster.intersectObjects(sceneMeshes, false);
-
-    // if (intersects.length > 0 ) {
-    //   if (Math.abs(intersects[0].point.z) > 0.1) {
-    //     if (originalIntersectsPoint.distanceTo(intersects[0].point) > 0.01 ) {
-    //       // console.log('distance = ', camera.position.distanceTo(intersects[0].point))
-
-    //       // console.log('intersects[0] = ', intersects[0])
-    //       // console.log('originalIntersectsPoint = ', originalIntersectsPoint)
-    //       // console.log('shift = ', originalIntersectsPoint.distanceTo(intersects[0].point))
-    //       camera.position.copy(intersects[0].point);
-    //       originalIntersectsPoint.copy(intersects[0].point)
-
-    //       // gsap.to(camera.position, {z: intersects[0].point.z, x: intersects[0].point.x, duration: 30});
-    //     }
-    //   }
-    // }
-
-    // camera.updateProjectionMatrix();
-    // camera.updateMatrixWorld();	
 
   })
 

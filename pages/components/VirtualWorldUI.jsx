@@ -33,12 +33,14 @@ const EmojiItem = (props) => {
 
 const VirtualWorldUI = (props) => {
   let playerPosition = useStore((s) => s.playerPosition)
+  console.log('VirtualWorldUI position = ', playerPosition)
+
   const moveControl = (data) => {
 
     const angle = Math.floor(data.angle.degree)
     const distance = Math.floor(data.distance * 0.7)
 
-    console.log('VirtualWorldUI position = ', playerPosition)
+    // console.log('VirtualWorldUI position = ', playerPosition)
     useStore.setState({goto: ''});
     useStore.setState({ playerCameraRotation: [-9.2, 0, 21] })
     useStore.setState({ joystickAngle: angle, joystickDistance: distance })
